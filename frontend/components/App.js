@@ -154,7 +154,6 @@ export default function App() {
     .put(`http://localhost:9000/api/articles/${article_id}`, article)
     .then(res => {
       setMessage(res.data.message)
-      const newArticle = articles.filter(art => art.article_id !== res.data.article.article_id)
       setArticles(articles => {
         return articles.map(art => {
           return art.article_id === article_id ? res.data.article : art

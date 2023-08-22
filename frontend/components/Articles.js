@@ -4,7 +4,7 @@ import PT from 'prop-types'
 
 export default function Articles(props) {
   // ✨ where are my props? Destructure them here
-  const {getArticles, articles, deleteArticle, setCurrentArticle, setCurrentArticleId, setSpinnerOn} = props
+  const {getArticles, articles, deleteArticle, setCurrentArticle, setCurrentArticleId, currentArticleId, setSpinnerOn} = props
   const token = localStorage.getItem('token')
   console.log(articles)
   if(token === null) {
@@ -12,11 +12,6 @@ export default function Articles(props) {
   }
   // ✨ implement conditional logic: if no token exists
   // we should render a Navigate to login screen (React Router v.6)
-
-  const handleEdit = (obj) => {
-    setCurrentArticleId(obj.article_id)
-    setCurrentArticle(obj)
-  }
 
   useEffect(() => {
     // ✨ grab the articles here, on first render only
@@ -37,15 +32,20 @@ export default function Articles(props) {
           ? 'No articles yet'
           : articles.map(art => {
             return (
+              
               <div className="article" key={art.article_id}>
                 <div>
                   <h3>{art.title}</h3>
                   <p>{art.text}</p>
                   <p>Topic: {art.topic}</p>
                 </div>
-                <div>
+                {/* <div>
                   <button disabled={true} onClick={handleEdit(art)}>Edit</button>
                   <button disabled={true} onClick={deleteArticle(art.article_id)}>Delete</button>
+                </div> */}
+                <div>
+                  <button disabled={!setCurrentArticleId} onClick={ () =>{ setCurrentArticleId(art.article_id); setCurrentArticle(art)}}> Edit </button>
+                  <button disabled={!setCurrentArticleId} onClick={() => deleteArticle(art.article_id)}> Delete </button>
                 </div>
               </div>
             )
